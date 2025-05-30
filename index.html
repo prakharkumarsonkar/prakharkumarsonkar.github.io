@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Project Boli – Respiratory Health Data</title>
+  <title>Respiratory Health Data – SPIN Lab IIT Guwahati</title>
   <style>
     /* RESET & BASE */
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,7 +23,7 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
       display: flex; align-items: center; gap: 20px;
     }
-    .header .institute-logo {
+    .institute-logo {
       height: 50px;
       flex-shrink: 0;
     }
@@ -32,17 +32,17 @@
       color: #0d3b66;
       margin-right: auto;
     }
-    .header nav ul {
+    nav ul {
       list-style: none;
       display: flex;
       gap: 25px;
     }
-    .header nav ul li a {
+    nav ul li a {
       font-weight: 600;
       color: #0d3b66;
       transition: color .2s;
     }
-    .header nav ul li a:hover {
+    nav ul li a:hover {
       color: #0954c2;
     }
 
@@ -86,9 +86,9 @@
       background: #0954c2;
     }
 
-    /* FORM SECTION + WATERMARK */
+    /* FORM + WATERMARK */
     #formSection {
-      display: none;             /* hidden initially */
+      display: none;
       margin: 40px auto;
       max-width: 400px;
     }
@@ -99,7 +99,7 @@
       content: "";
       position: absolute;
       top: 50%; left: 50%;
-      width: 300px; height: 300px;
+      width: 250px; height: 250px;
       background: url('assets/images/SpinLab.png') no-repeat center/contain;
       opacity: 0.07;
       transform: translate(-50%, -50%);
@@ -171,13 +171,12 @@
   <!-- HEADER -->
   <div class="header">
     <img src="assets/images/institute-logo.png" alt="Institute Logo" class="institute-logo">
-    <h1>Project Boli</h1>
+    <h1>SPIN Lab – IIT Guwahati</h1>
     <nav>
       <ul>
         <li><a id="navHome">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#people">People</a></li>
-        <li><a id="navSubmit">Submit Data</a></li>
       </ul>
     </nav>
   </div>
@@ -186,9 +185,8 @@
   <section class="intro" id="introSection">
     <h2>Respiratory Health Data Collection</h2>
     <p>
-      We’re gathering cough and speech recordings to build models that can 
-      help monitor respiratory health. By contributing a few minutes of your time, 
-      you’ll be helping research that could improve early detection and remote monitoring.
+      We’re gathering cough and speech recordings to build models that can help monitor respiratory health. 
+      By contributing a few minutes of your time, you’ll be helping research that could improve early detection and remote monitoring.
     </p>
     <ul>
       <li><strong>Metadata:</strong> Age, gender, health status</li>
@@ -198,7 +196,7 @@
     <div class="btn-proceed" id="btnProceed">Proceed to Recording Form</div>
   </section>
 
-  <!-- FORM (hidden until requested) -->
+  <!-- FORM (hidden initially) -->
   <section id="formSection">
     <div class="form-container">
       <div class="form-content">
@@ -235,7 +233,7 @@
 
   <!-- FOOTER -->
   <div class="footer">
-    © 2025 – All rights reserved by IIT Guwahati
+    © 2025 SPIN Lab – IIT Guwahati. All rights reserved.
   </div>
 
   <!-- SCRIPTS -->
@@ -253,7 +251,6 @@
     }
 
     document.getElementById('navHome').addEventListener('click', showIntro);
-    document.getElementById('navSubmit').addEventListener('click', showForm);
     document.getElementById('btnProceed').addEventListener('click', showForm);
 
     document.getElementById('healthForm')
@@ -268,7 +265,7 @@
         showIntro();
       });
 
-    // Start on the intro
+    // start on intro
     showIntro();
   </script>
 
