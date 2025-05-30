@@ -61,7 +61,7 @@
 </head>
 <body>
   <div class="container">
-    <h2>Health Survey</h2>
+    <h2>Respiratory Health Data</h2>
     <form id="healthForm" enctype="multipart/form-data">
       <label for="age">Age</label>
       <input type="number" name="age" placeholder="Age" required>
@@ -96,7 +96,7 @@
         body: formData
       });
       const result = await res.json();
-      alert("✅ Submitted successfully!");
+      alert("Submitted Successfully!");
       form.reset();
     });
   </script>
