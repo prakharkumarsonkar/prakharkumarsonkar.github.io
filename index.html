@@ -3,161 +3,166 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Respiratory Health Data – SPIN Lab</title>
+  <title>Project Boli – Respiratory Health Data</title>
   <style>
     /* RESET & BASE */
-    body, h1, h2, p, ul { margin:0; padding:0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: #e6f0fa;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #e6f0fa;
       color: #333;
       display: flex; flex-direction: column;
       min-height: 100vh;
     }
-    a { color: inherit; text-decoration: none; }
+    a { text-decoration: none; color: inherit; cursor: pointer; }
 
     /* HEADER */
     .header {
       background: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
       padding: 15px 30px;
-      display: flex; align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      display: flex; align-items: center; gap: 20px;
     }
-    .institute-logo { height:50px; }
-    .spin-header-text {
-      margin-left:15px;
-      line-height:1.1;
+    .header .institute-logo {
+      height: 50px;
+      flex-shrink: 0;
     }
-    .spin-header-text h1 {
-      font-size:24px; color:#0d3b66;
+    .header h1 {
+      font-size: 24px;
+      color: #0d3b66;
+      margin-right: auto;
     }
-    .spin-header-text p {
-      font-family:'Georgia', serif;
-      font-style:italic;
-      font-size:14px;
-      color:#5c6784;
+    .header nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
     }
-    nav { margin-left:auto; }
-    .nav-links {
-      list-style:none;
-      display:flex;
-      gap:20px;
+    .header nav ul li a {
+      font-weight: 600;
+      color: #0d3b66;
+      transition: color .2s;
     }
-    .nav-links a {
-      font-weight:600;
-      color:#0d3b66;
-      cursor:pointer;
+    .header nav ul li a:hover {
+      color: #0954c2;
     }
-    .nav-links a:hover { text-decoration:underline; }
 
-    /* INTRO SECTION */
+    /* INTRO */
     .intro {
       text-align: center;
       padding: 40px 20px;
-      max-width:700px;
-      margin:0 auto;
+      max-width: 700px;
+      margin: 0 auto;
     }
     .intro h2 {
-      font-size:22px; color:#0d3b66;
-      margin-bottom:20px;
+      font-size: 22px;
+      color: #0d3b66;
+      margin-bottom: 20px;
     }
     .intro p {
-      font-size:18px; line-height:1.6;
-      margin-bottom:20px;
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 20px;
     }
     .intro ul {
-      list-style:disc inside;
-      text-align:left;
-      margin:0 auto 30px;
-      max-width:400px;
+      list-style: disc inside;
+      text-align: left;
+      margin: 0 auto 30px;
+      max-width: 400px;
     }
-    .intro li { margin-bottom:10px; font-weight:500; }
-
+    .intro ul li {
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
     .btn-proceed {
-      display:inline-block;
-      padding:12px 30px;
-      background:#0d3b66;
-      color:#fff;
-      border-radius:6px;
-      font-size:16px;
-      cursor:pointer;
-      transition:background .3s;
+      display: inline-block;
+      padding: 12px 30px;
+      background: #0d3b66;
+      color: #fff;
+      border-radius: 6px;
+      font-size: 16px;
+      transition: background .3s;
     }
-    .btn-proceed:hover { background:#0954c2; }
+    .btn-proceed:hover {
+      background: #0954c2;
+    }
 
-    /* FORM + WATERMARK */
+    /* FORM SECTION + WATERMARK */
     #formSection {
-      display: none;              /* hidden by default */
-      position: relative;
-      margin:40px auto;
-      max-width:400px;
+      display: none;             /* hidden initially */
+      margin: 40px auto;
+      max-width: 400px;
     }
-    #formSection::before {
-      content:"";
-      position:absolute;
-      top:50%; left:50%;
-      width:300px; height:300px;
+    .form-container {
+      position: relative;
+    }
+    .form-container::before {
+      content: "";
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 300px; height: 300px;
       background: url('assets/images/SpinLab.png') no-repeat center/contain;
-      opacity:0.07;
-      transform:translate(-50%,-50%);
-      pointer-events:none;
+      opacity: 0.07;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
     }
     .form-content {
-      position:relative;
-      background:#fff;
-      border-radius:12px;
-      box-shadow:0 6px 20px rgba(0,0,0,0.05);
-      padding:30px 20px;
-      z-index:1;
+      position: relative;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+      padding: 30px 20px;
+      z-index: 1;
     }
     .form-content h2 {
-      text-align:center;
-      margin-bottom:25px;
-      color:#0d3b66;
+      text-align: center;
+      margin-bottom: 25px;
+      color: #0d3b66;
     }
     .form-content label {
-      display:block;
-      font-weight:600;
-      margin-bottom:5px;
+      display: block;
+      font-weight: 600;
+      margin-bottom: 5px;
     }
     .form-content input,
     .form-content select {
-      width:100%;
-      padding:9px;
-      margin-bottom:15px;
-      border:1px solid #ccc;
-      border-radius:5px;
-      background:#f9f9f9;
-      transition:border-color .3s;
+      width: 100%;
+      padding: 9px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: #f9f9f9;
+      transition: border-color .3s;
     }
     .form-content input:focus,
     .form-content select:focus {
-      border-color:#0d3b66;
-      outline:none;
+      border-color: #0d3b66;
+      outline: none;
     }
     .form-content button {
-      width:100%;
-      padding:12px;
-      background:#0d6efd;
-      color:#fff;
-      font-weight:600;
-      border:none;
-      border-radius:5px;
-      cursor:pointer;
-      font-size:16px;
-      transition:background .3s;
+      width: 100%;
+      padding: 12px;
+      background: #0d6efd;
+      color: #fff;
+      font-weight: 600;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background .3s;
     }
-    .form-content button:hover { background:#0954c2; }
+    .form-content button:hover {
+      background: #0954c2;
+    }
 
     /* FOOTER */
     .footer {
-      text-align:center;
-      padding:15px 0;
-      background:#e6f0fa;
-      font-size:14px;
-      color:#5c6784;
-      box-shadow:0 -1px 4px rgba(0,0,0,0.05);
-      margin-top:auto;
+      margin-top: auto;
+      background: #e6f0fa;
+      box-shadow: 0 -1px 4px rgba(0,0,0,0.05);
+      text-align: center;
+      padding: 15px 0;
+      font-size: 14px;
+      color: #5c6784;
     }
   </style>
 </head>
@@ -165,17 +170,10 @@
 
   <!-- HEADER -->
   <div class="header">
-    <img
-      src="assets/images/IITG_logo.png"
-      alt="Institute Logo"
-      class="IITG_ogo"
-    >
-    <div class="spin-header-text">
-      <h1>SPIN Lab</h1>
-      <p>All Things Signals</p>
-    </div>
+    <img src="assets/images/institute-logo.png" alt="Institute Logo" class="institute-logo">
+    <h1>Project Boli</h1>
     <nav>
-      <ul class="nav-links">
+      <ul>
         <li><a id="navHome">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#people">People</a></li>
@@ -185,7 +183,7 @@
   </div>
 
   <!-- INTRO -->
-  <div class="intro" id="introSection">
+  <section class="intro" id="introSection">
     <h2>Respiratory Health Data Collection</h2>
     <p>
       We’re gathering cough and speech recordings to build models that can 
@@ -198,70 +196,65 @@
       <li>No personally identifiable information is collected.</li>
     </ul>
     <div class="btn-proceed" id="btnProceed">Proceed to Recording Form</div>
-  </div>
+  </section>
 
-  <!-- FORM (hidden until “Submit Data” or Proceed) -->
-  <div id="formSection">
-    <div class="form-content">
-      <h2>Submit Your Data</h2>
-      <form id="healthForm" enctype="multipart/form-data">
-        <label for="age">Age</label>
-        <input type="number" name="age" id="age" placeholder="e.g. 29" required>
+  <!-- FORM (hidden until requested) -->
+  <section id="formSection">
+    <div class="form-container">
+      <div class="form-content">
+        <h2>Submit Your Data</h2>
+        <form id="healthForm" enctype="multipart/form-data">
+          <label for="age">Age</label>
+          <input type="number" name="age" id="age" placeholder="e.g. 29" required>
 
-        <label for="gender">Gender</label>
-        <select name="gender" id="gender" required>
-          <option value="">Select…</option>
-          <option>Male</option>
-          <option>Female</option>
-          <option>Other</option>
-        </select>
+          <label for="gender">Gender</label>
+          <select name="gender" id="gender" required>
+            <option value="">Select…</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
 
-        <label for="healthStatus">Health Status</label>
-        <input type="text" name="healthStatus" id="healthStatus"
-               placeholder="Healthy / Asthma / COPD…" required>
+          <label for="healthStatus">Health Status</label>
+          <input type="text" name="healthStatus" id="healthStatus"
+                 placeholder="Healthy / Asthma / COPD…" required>
 
-        <label for="coughAudio">Cough Audio</label>
-        <input type="file" name="coughAudio" id="coughAudio"
-               accept="audio/*" required>
+          <label for="coughAudio">Cough Audio</label>
+          <input type="file" name="coughAudio" id="coughAudio"
+                 accept="audio/*" required>
 
-        <label for="speechAudio">Speech Audio</label>
-        <input type="file" name="speechAudio" id="speechAudio"
-               accept="audio/*" required>
+          <label for="speechAudio">Speech Audio</label>
+          <input type="file" name="speechAudio" id="speechAudio"
+                 accept="audio/*" required>
 
-        <button type="submit">Submit</button>
-      </form>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
     </div>
-  </div>
+  </section>
 
   <!-- FOOTER -->
   <div class="footer">
-    © 2025 Prakhar Kumar Sonkar @ SPIN Lab. All rights reserved.
+    © 2025 – All rights reserved by IIT Guwahati
   </div>
 
   <!-- SCRIPTS -->
   <script>
-    const intro = document.getElementById('introSection');
-    const form  = document.getElementById('formSection');
+    const intro   = document.getElementById('introSection');
+    const formSec = document.getElementById('formSection');
 
-    // Show intro, hide form
     function showIntro() {
       intro.style.display = 'block';
-      form.style.display  = 'none';
+      formSec.style.display = 'none';
     }
-    // Show form, hide intro
     function showForm() {
       intro.style.display = 'none';
-      form.style.display  = 'block';
+      formSec.style.display = 'block';
     }
 
-    document.getElementById('navHome')
-      .addEventListener('click', showIntro);
-
-    document.getElementById('navSubmit')
-      .addEventListener('click', showForm);
-
-    document.getElementById('btnProceed')
-      .addEventListener('click', showForm);
+    document.getElementById('navHome').addEventListener('click', showIntro);
+    document.getElementById('navSubmit').addEventListener('click', showForm);
+    document.getElementById('btnProceed').addEventListener('click', showForm);
 
     document.getElementById('healthForm')
       .addEventListener('submit', async e => {
@@ -275,8 +268,9 @@
         showIntro();
       });
 
-    // on load: start at intro
+    // Start on the intro
     showIntro();
   </script>
+
 </body>
 </html>
