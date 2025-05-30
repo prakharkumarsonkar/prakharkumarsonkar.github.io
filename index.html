@@ -5,35 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Respiratory Health Data – SPIN Lab</title>
   <style>
-    /* page reset & font */
-    body, h1, h2, p, ul {
-      margin: 0; padding: 0;
+    /* reset & base font */
+    body, h1, h2, p, ul { margin:0; padding:0; }
+    body { 
+      background-color: #e6f0fa; 
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex; flex-direction: column;
+      min-height: 100vh;
       color: #333;
     }
-    body {
-      background-color: #e6f0fa;
-      display: flex; flex-direction: column; min-height: 100vh;
-    }
-    a { color: inherit; text-decoration: none; }
+    a { text-decoration: none; color: inherit; }
 
-    /* header / banner */
+    /* HEADER */
     .header {
       background-color: #fff;
       padding: 20px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      display: flex; align-items: center; gap: 20px;
+      display: flex;
+      align-items: center;
     }
     .header img {
       height: 50px;
-      border-radius: 8px;
+      margin-right: 15px;
     }
     .header h1 {
       font-size: 24px;
       color: #0d3b66;
     }
 
-    /* intro section */
+    /* INTRO SECTION */
     .intro {
       flex: 1;
       padding: 40px 20px;
@@ -64,18 +64,21 @@
       border-radius: 6px;
       font-size: 16px;
       cursor: pointer;
-      transition: background-color .3s;
+      transition: background-color 0.3s;
     }
     .btn-proceed:hover {
       background-color: #0954c2;
     }
 
-    /* form section (hidden by default) */
+    /* FORM SECTION */
     #formSection {
       display: none;
       padding: 30px 20px;
       max-width: 400px;
       margin: 0 auto 40px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.05);
     }
     #formSection h2 {
       text-align: center;
@@ -121,7 +124,7 @@
       background-color: #0954c2;
     }
 
-    /* footer */
+    /* FOOTER */
     .footer {
       text-align: center;
       padding: 15px 0;
@@ -133,16 +136,15 @@
     }
   </style>
 </head>
-
 <body>
-  <!-- HEADER / LOGO -->
+
+  <!-- HEADER -->
   <div class="header">
-    <!-- your photo / banner -->
-    <img src="banner.jpg" alt="SPIN Lab">
+    <img src="assets/images/SpinLab.png" alt="SPIN Lab Logo">
     <h1>Respiratory Health Data Collection</h1>
   </div>
 
-  <!-- INTRO & BULLETS -->
+  <!-- INTRO -->
   <div class="intro" id="introSection">
     <p>
       We’re gathering cough and speech recordings to build models that can 
@@ -157,7 +159,7 @@
     <div class="btn-proceed" id="btnProceed">Proceed to Recording Form</div>
   </div>
 
-  <!-- FORM (initially hidden) -->
+  <!-- FORM -->
   <div id="formSection">
     <h2>Submit Your Data</h2>
     <form id="healthForm" enctype="multipart/form-data">
@@ -190,14 +192,15 @@
     © 2025 Prakhar Kumar Sonkar @ SPIN Lab. All rights reserved.
   </div>
 
-  <!-- SHOW FORM ON “PROCEED” -->
+  <!-- SCRIPTS -->
   <script>
+    // show form on “Proceed”
     document.getElementById('btnProceed').addEventListener('click', () => {
       document.getElementById('introSection').style.display = 'none';
       document.getElementById('formSection').style.display = 'block';
     });
 
-    // existing form submission logic
+    // form submission
     const form = document.getElementById('healthForm');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -209,8 +212,8 @@
       await res.json();
       alert("Submitted successfully!");
       form.reset();
-      // optionally go back to intro or keep form visible
     });
   </script>
+
 </body>
 </html>
