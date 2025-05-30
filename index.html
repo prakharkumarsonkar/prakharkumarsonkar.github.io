@@ -3,80 +3,109 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Respiratory Health Form - SPIN Lab</title>
+  <title>Respiratory Health Data – SPIN Lab</title>
   <style>
+    /* page reset & font */
+    body, h1, h2, p, ul {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+    }
     body {
       background-color: #e6f0fa;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      display: flex; flex-direction: column; min-height: 100vh;
     }
+    a { color: inherit; text-decoration: none; }
 
+    /* header / banner */
     .header {
-      text-align: center;
-      margin-bottom: 30px;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      display: flex; align-items: center; gap: 20px;
     }
-
+    .header img {
+      height: 50px;
+      border-radius: 8px;
+    }
     .header h1 {
-      margin: 0;
-      font-size: 28px;
+      font-size: 24px;
       color: #0d3b66;
     }
 
-    .header p {
-  font-style: italic;
-  font-size: 16px; /* Increase or decrease as desired */
-  font-family: 'Georgia', serif; /* Elegant serif font */
-  color: #5c6784;
-  margin-top: 5px;
-  }
-
-
-    .form-container {
-      background-color: #ffffff;
-      padding: 30px 35px;
-      border-radius: 12px;
-      box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.05);
-      width: 360px;
+    /* intro section */
+    .intro {
+      flex: 1;
+      padding: 40px 20px;
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .intro p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .intro ul {
+      list-style: disc inside;
+      text-align: left;
+      margin: 0 auto 30px;
+      max-width: 400px;
+    }
+    .intro ul li {
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    .btn-proceed {
+      display: inline-block;
+      padding: 12px 30px;
+      background-color: #0d3b66;
+      color: #fff;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color .3s;
+    }
+    .btn-proceed:hover {
+      background-color: #0954c2;
     }
 
-    h2 {
+    /* form section (hidden by default) */
+    #formSection {
+      display: none;
+      padding: 30px 20px;
+      max-width: 400px;
+      margin: 0 auto 40px;
+    }
+    #formSection h2 {
       text-align: center;
       margin-bottom: 25px;
       color: #0d3b66;
     }
-
-    label {
+    #healthForm label {
       display: block;
       font-weight: 600;
       margin-bottom: 5px;
       color: #333;
     }
-
-    input[type="text"],
-    input[type="number"],
-    input[type="file"],
-    select {
+    #healthForm input[type="number"],
+    #healthForm input[type="text"],
+    #healthForm input[type="file"],
+    #healthForm select {
       width: 100%;
       padding: 9px;
       margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 5px;
       background-color: #f9f9f9;
-      transition: border-color 0.3s;
+      transition: border-color .3s;
     }
-
-    input:focus, select:focus {
+    #healthForm input:focus,
+    #healthForm select:focus {
       border-color: #0d3b66;
       outline: none;
     }
-
-    button {
+    #healthForm button {
       width: 100%;
       padding: 12px;
       background-color: #0d6efd;
@@ -86,63 +115,89 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 16px;
-      transition: background-color 0.3s;
+      transition: background-color .3s;
     }
-
-    button:hover {
+    #healthForm button:hover {
       background-color: #0954c2;
     }
-    
-    .footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #e6f0fa;
-  text-align: center;
-  padding: 10px 0;
-  font-size: 14px;
-  color: #5c6784;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  box-shadow: 0 -1px 4px rgba(0,0,0,0.05);
-}
 
+    /* footer */
+    .footer {
+      text-align: center;
+      padding: 15px 0;
+      background-color: #e6f0fa;
+      font-size: 14px;
+      color: #5c6784;
+      box-shadow: 0 -1px 4px rgba(0,0,0,0.05);
+      margin-top: auto;
+    }
   </style>
 </head>
-<body>
 
+<body>
+  <!-- HEADER / LOGO -->
   <div class="header">
-    <h1>SPIN Lab</h1>
-    <p>All Things Signals</p>
+    <!-- your photo / banner -->
+    <img src="banner.jpg" alt="SPIN Lab">
+    <h1>Respiratory Health Data Collection</h1>
   </div>
 
-  <div class="form-container">
-    <h2>Respiratory Health Data</h2>
+  <!-- INTRO & BULLETS -->
+  <div class="intro" id="introSection">
+    <p>
+      We’re gathering cough and speech recordings to build models that can 
+      help monitor respiratory health. By contributing a few minutes of your time, 
+      you’ll be helping research that could improve early detection and remote monitoring.
+    </p>
+    <ul>
+      <li><strong>Metadata:</strong> Age, gender, health status</li>
+      <li><strong>Audio Samples:</strong> A few coughs and a short speech passage</li>
+      <li>No personally identifiable information is collected.</li>
+    </ul>
+    <div class="btn-proceed" id="btnProceed">Proceed to Recording Form</div>
+  </div>
+
+  <!-- FORM (initially hidden) -->
+  <div id="formSection">
+    <h2>Submit Your Data</h2>
     <form id="healthForm" enctype="multipart/form-data">
       <label for="age">Age</label>
-      <input type="number" name="age" required placeholder="Age">
+      <input type="number" name="age" id="age" placeholder="e.g. 29" required>
 
       <label for="gender">Gender</label>
-      <select name="gender" required>
-        <option value="">Select Gender</option>
+      <select name="gender" id="gender" required>
+        <option value="">Select…</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
         <option value="Other">Other</option>
       </select>
 
       <label for="healthStatus">Health Status</label>
-      <input type="text" name="healthStatus" placeholder="Health Status" required>
+      <input type="text" name="healthStatus" id="healthStatus" placeholder="Healthy, Asthma, COPD…" required>
 
       <label for="coughAudio">Cough Audio</label>
-      <input type="file" name="coughAudio" accept="audio/*" required>
+      <input type="file" name="coughAudio" id="coughAudio" accept="audio/*" required>
 
       <label for="speechAudio">Speech Audio</label>
-      <input type="file" name="speechAudio" accept="audio/*" required>
+      <input type="file" name="speechAudio" id="speechAudio" accept="audio/*" required>
 
       <button type="submit">Submit</button>
     </form>
   </div>
 
+  <!-- FOOTER -->
+  <div class="footer">
+    © 2025 Prakhar Kumar Sonkar @ SPIN Lab. All rights reserved.
+  </div>
+
+  <!-- SHOW FORM ON “PROCEED” -->
   <script>
+    document.getElementById('btnProceed').addEventListener('click', () => {
+      document.getElementById('introSection').style.display = 'none';
+      document.getElementById('formSection').style.display = 'block';
+    });
+
+    // existing form submission logic
     const form = document.getElementById('healthForm');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -151,14 +206,11 @@
         method: 'POST',
         body: formData
       });
-      const result = await res.json();
+      await res.json();
       alert("Submitted successfully!");
       form.reset();
+      // optionally go back to intro or keep form visible
     });
   </script>
-  <footer class="footer">
-  <p>© 2025 Prakhar Kumar Sonkar @ SPIN Lab. All rights reserved.</p>
-</footer>
-
 </body>
 </html>
