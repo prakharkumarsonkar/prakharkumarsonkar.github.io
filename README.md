@@ -1,2 +1,2 @@
-# respiratory data collection.github.io
+# respiratorydatacollection.github.io
 Respiratory Health Data
