@@ -1,2 +1,2 @@
-# prakharkumarsonkar.github.io
+# respiratory data collection.github.io
 Respiratory Health Data
