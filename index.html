@@ -70,11 +70,7 @@
 
     /* FORM SECTION */
     #formSection { display:none; margin:40px auto; max-width:400px; }
-
-    /* WATERMARK & FORM CONTAINER */
-    .form-container {
-      position:relative;
-    }
+    .form-container { position:relative; }
     .form-container::before {
       content:"";
       position:absolute;
@@ -121,7 +117,8 @@
       border-color:#0d3b66;
       outline:none;
     }
-    .form-content button {
+    .form-content button,
+    .form-content button[type="button"] {
       width:100%;
       padding:12px;
       background:#0d6efd;
@@ -132,8 +129,16 @@
       font-size:16px;
       cursor:pointer;
       transition:background .3s;
+      margin-bottom:15px;
     }
     .form-content button:hover { background:#0954c2; }
+    .status {
+      font-size:14px;
+      color:#555;
+      margin-top:-12px;
+      margin-bottom:15px;
+      display:block;
+    }
 
     /* FOOTER */
     .footer {
@@ -186,9 +191,10 @@
     <div class="form-container">
       <div class="form-content">
         <h2>Submit Your Data</h2>
-        <form id="healthForm" enctype="multipart/form-data">
+        <form id="healthForm">
           <label for="age">Age</label>
-          <input type="number" name="age" id="age" placeholder="e.g. 29" required>
+          <input type="number" name="age" id="age"
+                 placeholder="e.g. 29" required />
 
           <label for="gender">Gender</label>
           <select name="gender" id="gender" required>
@@ -200,15 +206,15 @@
 
           <label for="healthStatus">Health Status</label>
           <input type="text" name="healthStatus" id="healthStatus"
-                 placeholder="Healthy / Asthma / COPD…" required>
+                 placeholder="Healthy / Asthma / COPD…" required />
 
-          <label for="coughAudio">Cough Audio</label>
-          <input type="file" name="coughAudio" id="coughAudio"
-                 accept="audio/*" required>
+          <label>Cough Audio</label>
+          <button type="button" id="recordCough">Record Cough</button>
+          <span class="status" id="coughStatus">No recording yet</span>
 
-          <label for="speechAudio">Speech Audio</label>
-          <input type="file" name="speechAudio" id="speechAudio"
-                 accept="audio/*" required>
+          <label>Speech Audio</label>
+          <button type="button" id="recordSpeech">Record Speech</button>
+          <span class="status" id="speechStatus">No recording yet</span>
 
           <button type="submit">Submit</button>
         </form>
@@ -225,13 +231,19 @@
   <script>
     const intro   = document.getElementById('introSection');
     const formSec = document.getElementById('formSection');
+    const recordCough  = document.getElementById('recordCough');
+    const recordSpeech = document.getElementById('recordSpeech');
+    const coughStatus  = document.getElementById('coughStatus');
+    const speechStatus = document.getElementById('speechStatus');
+    let mediaRecorder, currentLabel, chunks = [];
+    let recordedCoughFile = null, recordedSpeechFile = null;
 
     function showIntro() {
-      intro.style.display = 'block';
+      intro.style.display   = 'block';
       formSec.style.display = 'none';
     }
     function showForm() {
-      intro.style.display = 'none';
+      intro.style.display   = 'none';
       formSec.style.display = 'block';
     }
 
@@ -240,15 +252,75 @@
     document.getElementById('btnProceed')
             .addEventListener('click', showForm);
 
+    async function startRecording(label) {
+      currentLabel = label;
+      chunks = [];
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.ondataavailable = e => { chunks.push(e.data); };
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'audio/webm' });
+        const file = new File([blob], `${label}.webm`, { type: blob.type });
+        if (label === 'cough') {
+          recordedCoughFile = file;
+          coughStatus.textContent = `Recorded (${(blob.size/1024).toFixed(1)} KB)`;
+        } else {
+          recordedSpeechFile = file;
+          speechStatus.textContent = `Recorded (${(blob.size/1024).toFixed(1)} KB)`;
+        }
+      };
+      mediaRecorder.start();
+    }
+
+    function toggleRecording(buttonEl, label) {
+      if (mediaRecorder && mediaRecorder.state === 'recording' && currentLabel === label) {
+        mediaRecorder.stop();
+        buttonEl.textContent = buttonEl.id === 'recordCough' ? 'Record Cough' : 'Record Speech';
+      } else {
+        startRecording(label);
+        buttonEl.textContent = 'Stop Recording';
+      }
+    }
+
+    recordCough.addEventListener('click', () => {
+      toggleRecording(recordCough, 'cough');
+    });
+    recordSpeech.addEventListener('click', () => {
+      toggleRecording(recordSpeech, 'speech');
+    });
+
     document.getElementById('healthForm')
       .addEventListener('submit', async e => {
         e.preventDefault();
+
+        // package all fields into FormData
+        const form = e.target;
+        const fd = new FormData();
+        fd.append('age', form.age.value);
+        fd.append('gender', form.gender.value);
+        fd.append('healthStatus', form.healthStatus.value);
+
+        if (!recordedCoughFile) {
+          return alert('Please record your cough sample first.');
+        }
+        if (!recordedSpeechFile) {
+          return alert('Please record your speech sample first.');
+        }
+
+        fd.append('coughAudio', recordedCoughFile);
+        fd.append('speechAudio', recordedSpeechFile);
+
         await fetch('/api/users', {
           method: 'POST',
-          body: new FormData(e.target)
+          body: fd
         });
+
         alert('Submitted successfully!');
-        e.target.reset();
+        form.reset();
+        coughStatus.textContent  = 'No recording yet';
+        speechStatus.textContent = 'No recording yet';
+        recordedCoughFile = null;
+        recordedSpeechFile = null;
         showIntro();
       });
 
